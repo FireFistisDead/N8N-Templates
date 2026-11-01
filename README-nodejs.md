@@ -1,4 +1,4 @@
-# 🚀 AceIntelligence n8n Workflow Documentation - Node.js Implementation
+# 🚀 n8n Workflow Documentation - Node.js Implementation
 
 A fast, modern documentation system for N8N workflows built with Node.js and Express.js.
 

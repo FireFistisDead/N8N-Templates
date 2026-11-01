@@ -1,7 +1,7 @@
 {
   "name": "n8n-workflow-docs",
   "version": "1.0.0",
-  "description": "AceIntelligence n8n Workflow Documentation System - Node.js Implementation",
+  "description": "n8n Workflow Documentation System - Node.js Implementation",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
@@ -29,6 +29,6 @@
     "documentation",
     "automation"
   ],
-  "author": "AceIntelligence",
+  "author": "FireFistisDead",
   "license": "MIT"
 }

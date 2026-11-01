@@ -21,7 +21,7 @@ from workflow_db import WorkflowDatabase
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="AceIntelligence n8n Workflow Documentation API",
+    title="n8n Workflow Documentation API",
     description="Fast API for browsing and searching workflow documentation",
     version="2.0.0"
 )
