@@ -1,0 +1,13 @@
+{
+  "name": "@n8n-workflows/categorizer-node",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Batch worker that derives category mappings from workflow filenames",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  }
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse and search 2,000+ n8n workflow templates with instant full-text search. By AceIntelligence Systems.">
+  <title>n8n Workflow Collection & Documentation - AceIntelligence Systems</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+
+
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <a class="founder-corner founder-corner-left" href="https://github.com/fireFistisDead" target="_blank" rel="noopener noreferrer" title="Yash Khare - Founder, built this project">
+        <img class="founder-avatar" src="https://github.com/fireFistisDead.png" alt="Yash Khare" loading="lazy">
+        <span class="founder-info">
+          <span class="founder-name">Yash Khare</span>
+          <span class="founder-role">Founder</span>
+        </span>
+      </a>
+      <a class="founder-corner founder-corner-right" href="https://github.com/omchoksi108" target="_blank" rel="noopener noreferrer" title="Om Choksi - Co-founder">
+        <span class="founder-info founder-info-right">
+          <span class="founder-name">Om Choksi</span>
+          <span class="founder-role">Co-founder</span>
+        </span>
+        <img class="founder-avatar" src="https://github.com/omchoksi108.png" alt="Om Choksi" loading="lazy">
+      </a>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo-section">
+            <h1 class="title">n8n Workflow Collection & Documentation</h1>
+            <p class="subtitle">A curated collection of 2,057+ n8n workflows with a fast, searchable documentation system</p>
+            <p class="branding">By <strong><a href="https://aceintelligence.systems" target="_blank" rel="noopener noreferrer">AceIntelligence Systems</a></strong> &middot;
+              <a href="https://github.com/fireFistisDead" target="_blank" rel="noopener noreferrer">Yash Khare</a> (Founder) &
+              <a href="https://github.com/omchoksi108" target="_blank" rel="noopener noreferrer">Om Choksi</a> (Co-founder)</p>
+          </div>
+          <div class="support-section">
+            <a href="https://buymeacoffee.com/firefistisdead" class="support-badge" target="_blank" rel="noopener noreferrer">
+              <span class="support-text">Support My Work</span>
+            </a>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-number" id="totalCount">0</span>
+            <span class="stat-label">Total Workflows</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" id="activeCount">0</span>
+            <span class="stat-label">Active</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" id="nodeCount">0</span>
+            <span class="stat-label">Total Nodes</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" id="integrationCount">0</span>
+            <span class="stat-label">Integrations</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="container">
+        <div class="search-section">
+          <input type="text" id="searchInput" class="search-input"
+            placeholder="Search workflows by name, description, or integration...">
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-group">
+            <label for="triggerFilter">Trigger:</label>
+            <select id="triggerFilter">
+              <option value="all">All Types</option>
+              <option value="Webhook">Webhook</option>
+              <option value="Scheduled">Scheduled</option>
+              <option value="Manual">Manual</option>
+              <option value="Complex">Complex</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="complexityFilter">Complexity:</label>
+            <select id="complexityFilter">
+              <option value="all">All Levels</option>
+              <option value="low">Low (≤5 nodes)</option>
+              <option value="medium">Medium (6-15 nodes)</option>
+              <option value="high">High (16+ nodes)</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="categoryFilter">Category:</label>
+            <select id="categoryFilter">
+              <option value="all">All Categories</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>
+              <input type="checkbox" id="activeOnly">
+              Active only
+            </label>
+          </div>
+
+          <div class="theme-switch" id="themeSwitch" role="group" aria-label="Theme">
+            <button type="button" class="theme-option" data-theme-option="dark" aria-pressed="false">Dark</button>
+            <button type="button" class="theme-option" data-theme-option="light" aria-pressed="false">White</button>
+          </div>
+        </div>
+
+        <div class="results-info">
+          <span id="resultsCount">Loading...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+      <div class="container">
+        <!-- Loading State -->
+        <div id="loadingState" class="state loading">
+          <div class="spinner"></div>
+          <h3>Loading workflows...</h3>
+          <p>Please wait while we fetch your workflow data</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="state error hidden">
+          <div class="error-icon">!</div>
+          <h3>Error Loading Workflows</h3>
+          <p id="errorMessage">Something went wrong. Please try again.</p>
+          <button id="retryBtn" class="retry-btn">Retry</button>
+        </div>
+
+        <!-- No Results State -->
+        <div id="noResultsState" class="state hidden">
+          <div class="no-results-icon">?</div>
+          <h3>No workflows found</h3>
+          <p>Try adjusting your search terms or filters</p>
+        </div>
+
+        <!-- Workflows Grid -->
+        <div id="workflowGrid" class="workflow-grid hidden">
+        </div>
+
+        <!-- Load More -->
+        <div id="loadMoreContainer" class="load-more hidden">
+          <button id="loadMoreBtn" class="load-more-btn">Load More</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Workflow Detail Modal -->
+    <div id="workflowModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modalTitle">Workflow Details</h2>
+          <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="workflow-detail">
+            <h4>Description</h4>
+            <p id="modalDescription">Loading...</p>
+          </div>
+
+          <div class="workflow-detail">
+            <h4>Statistics</h4>
+            <div id="modalStats">Loading...</div>
+          </div>
+
+          <div class="workflow-detail">
+            <h4>Integrations</h4>
+            <div id="modalIntegrations">Loading...</div>
+          </div>
+
+          <div class="workflow-detail">
+            <h4>Actions</h4>
+            <div class="workflow-actions">
+              <a id="downloadBtn" class="action-btn primary" href="#" download>Download JSON</a>
+              <button id="viewJsonBtn" class="action-btn">View JSON</button>
+              <button id="viewDiagramBtn" class="action-btn">View Diagram</button>
+            </div>
+          </div>
+
+          <div class="workflow-detail hidden" id="jsonSection">
+            <div class="section-header">
+              <h4>Workflow JSON</h4>
+              <button id="copyJsonBtn" class="copy-btn" title="Copy JSON to clipboard">
+                Copy
+              </button>
+            </div>
+            <div class="json-viewer" id="jsonViewer">Loading...</div>
+          </div>
+
+          <div class="workflow-detail hidden" id="diagramSection">
+            <div class="section-header">
+              <h4>Workflow Diagram</h4>
+              <div class="diagram-controls">
+                <button id="zoomInBtn" class="zoom-btn" title="Zoom In">+</button>
+                <button id="zoomOutBtn" class="zoom-btn" title="Zoom Out">-</button>
+                <button id="zoomResetBtn" class="zoom-btn" title="Reset Zoom">Reset</button>
+                <button id="copyDiagramBtn" class="copy-btn" title="Copy diagram code to clipboard">
+                  Copy
+                </button>
+              </div>
+            </div>
+            <div id="diagramContainer" class="diagram-container">
+              <div id="diagramViewer">Loading diagram...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/assets/js/state.js" defer></script>
+  <script src="/assets/js/api.js" defer></script>
+  <script src="/assets/js/theme.js" defer></script>
+  <script src="/assets/js/workflows.js" defer></script>
+  <script src="/assets/js/render.js" defer></script>
+  <script src="/assets/js/modal.js" defer></script>
+  <script src="/assets/js/diagram.js" defer></script>
+  <script src="/assets/js/app.js" defer></script>
+</body>
+
+</html>

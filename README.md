@@ -1,462 +1,888 @@
-# ⚡n8n Workflow Collection & Documentation
+# n8n Workflow Collection & Documentation
 
-A professionally organized collection of **2,053 n8n workflows** with a lightning-fast documentation system that provides instant search, analysis, and browsing capabilities.
+**By AceIntelligence Systems** | **Founders: OM CHOKSI & Yash Khare**
 
-> **⚠️ IMPORTANT NOTICE (Aug 14, 2025):** Repository history has been rewritten due to DMCA compliance. If you have a fork or local clone, please see [Issue 85](https://github.com/FireFistisDead/n8n-workflows/issues/85) for instructions on syncing your copy.
-> 
-## Support My Work
+A curated collection of **2,057+ n8n workflows** with a **high-performance, searchable documentation system** built as **function-focused microservices** in both **Python** and **Node.js**.
 
-[![Buy Me a Coffee](https://img.shields.io/badge/-Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black&style=flat)](https://buymeacoffee.com/firefistisdead)
-
-## 🚀 **NEW: High-Performance Documentation System**
-
-**Experience 100x performance improvement over traditional documentation!**
-
-### Quick Start - Fast Documentation System
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Start the fast API server
-python run.py
-
-# Open in browser
-http://localhost:8000
-```
-
-**Features:**
-- ⚡ **Sub-100ms response times** with SQLite FTS5 search
-- 🔍 **Instant full-text search** with advanced filtering
-- 📱 **Responsive design** - works perfectly on mobile
-- 🌙 **Dark/light themes** with system preference detection
-- 📊 **Live statistics** - 365 unique integrations, 29,445 total nodes
-- 🎯 **Smart categorization** by trigger type and complexity
-- 🎯 **Use case categorization** by service name mapped to categories
-- 📄 **On-demand JSON viewing** and download
-- 🔗 **Mermaid diagram generation** for workflow visualization
-- 🔄 **Real-time workflow naming** with intelligent formatting
-
-### Performance Comparison
-
-| Metric | Old System | New System | Improvement |
-|--------|------------|------------|-------------|
-| **File Size** | 71MB HTML | <100KB | **700x smaller** |
-| **Load Time** | 10+ seconds | <1 second | **10x faster** |
-| **Search** | Client-side only | Full-text with FTS5 | **Instant** |
-| **Memory Usage** | ~2GB RAM | <50MB RAM | **40x less** |
-| **Mobile Support** | Poor | Excellent | **Fully responsive** |
+> **IMPORTANT NOTICE (Aug 14, 2025):** Repository history has been rewritten due to DMCA compliance. If you have a fork or local clone, please see [Issue 85](https://github.com/FireFistisDead/n8n-workflows/issues/85) for instructions on syncing your copy.
 
 ---
 
-## 📂 Repository Organization
+## About AceIntelligence Systems
 
-### Workflow Collection
-- **2,053 workflows** with meaningful, searchable names
-- **365 unique integrations** across popular platforms
-- **29,445 total nodes** with professional categorization
-- **Quality assurance** - All workflows analyzed and categorized
+**AceIntelligence Systems** is a cutting-edge automation and AI integration company specializing in workflow automation, business process optimization, and intelligent system integration.
 
-### Advanced Naming System ✨
-Our intelligent naming system converts technical filenames into readable titles:
-- **Before**: `2051_Telegram_Webhook_Automation_Webhook.json`
-- **After**: `Telegram Webhook Automation`
-- **100% meaningful names** with smart capitalization
-- **Automatic integration detection** from node analysis
+### Founding Team
 
-### Use Case Category ✨
+| Role | Name | Email | LinkedIn |
+|------|------|-------|---------|
+| **Founder & CEO** | OM CHOKSI | om@aceinteligence.systems | [linkedin.com/in/omchoksi](https://linkedin.com/in/omchoksi) |
+| **Co-Founder & CTO** | Yash Khare | yash@aceinteligence.systems | [linkedin.com/in/yashkhare](https://linkedin.com/in/yashkhare) |
 
-The search interface includes a dropdown filter that lets you browse 2,000+ workflows by category.
+### Company Information
 
-The system includes an automated categorization feature that organizes workflows by service categories to make them easier to discover and filter.
+- **Website**: [https://aceinteligence.systems](https://aceinteligence.systems)
+- **Specialization**: Workflow Automation, AI Integration, n8n Solutions, Business Process Automation
+- **Location**: Global (Remote-First)
+- **Established**: 2024
 
-### How Categorization Works
+---
 
-1. **Run the categorization script**
-   ```
-   python create_categories.py
-   ```
+## Architecture Overview
 
-2. **Service Name Recognition**
-   The script analyzes each workflow JSON filename to identify recognized service names (e.g., "Twilio", "Slack", "Gmail", etc.)
+The system follows a **microservices architecture** with clear separation of concerns, designed for scalability, maintainability, and high performance.
 
-3. **Category Mapping**
-   Each recognized service name is matched to its corresponding category using the definitions in `context/def_categories.json`. For example:
-   - Twilio → Communication & Messaging
-   - Gmail → Communication & Messaging  
-   - Airtable → Data Processing & Analysis
-   - Salesforce → CRM & Sales
+### System Architecture Diagram
 
-4. **Search Categories Generation**
-   The script produces a `search_categories.json` file that contains the categorized workflow data
+```mermaid
+flowchart TB
+    subgraph Client["Client Layer"]
+        Browser[("Browser / Client")]
+    end
+    
+    subgraph Gateway["Gateway Services\n(Public API Layer)"]
+        GW_Py["Gateway Python\nPort: 8000"]
+        GW_Node["Gateway Node\nPort: 8001"]
+    end
+    
+    subgraph Catalog["Catalog Services\n(Internal Layer)"]
+        Cat_Py["Catalog Python\nPort: 8101"]
+        Cat_Node["Catalog Node\nPort: 8102"]
+    end
+    
+    subgraph Data["Data Layer"]
+        DB_Py[("SQLite DB\nPython")]
+        DB_Node[("SQLite DB\nNode")]
+        Context[("Context Files")]
+        Workflows[("Workflows\n2,057+ JSON")]
+    end
+    
+    subgraph Batch["Batch Processing"]
+        Categorizer["Categorizer\n(Batch Job)"]
+    end
+    
+    Browser -->|HTTP Requests| GW_Py
+    Browser -->|HTTP Requests| GW_Node
+    
+    GW_Py -->|API Proxy| Cat_Py
+    GW_Node -->|API Proxy| Cat_Node
+    
+    Cat_Py -->|Read/Write| DB_Py
+    Cat_Node -->|Read/Write| DB_Node
+    
+    Cat_Py -->|Read| Context
+    Cat_Node -->|Read| Context
+    
+    Cat_Py -->|Read| Workflows
+    Cat_Node -->|Read| Workflows
+    
+    Categorizer -->|Write| Context
+    
+    style Browser fill:#f9f,stroke:#333
+    style GW_Py fill:#bbf,stroke:#333
+    style GW_Node fill:#bbf,stroke:#333
+    style Cat_Py fill:#9f9,stroke:#333
+    style Cat_Node fill:#9f9,stroke:#333
+    style DB_Py fill:#ff9,stroke:#333
+    style DB_Node fill:#ff9,stroke:#333
+    style Context fill:#ff9,stroke:#333
+    style Workflows fill:#ff9,stroke:#333
+    style Categorizer fill:#f96,stroke:#333
+```
 
-5. **Filter Interface**
-   Users can then filter workflows by category in the search interface, making it easier to find workflows for specific use cases
+### Microservices Communication Flow
+
+```mermaid
+flowchart LR
+    subgraph "Public Layer\n(Exposed to Clients)"
+        direction TB
+        GW_Py["Gateway Python\nPort: 8000"]
+        GW_Node["Gateway Node\nPort: 8001"]
+    end
+    
+    subgraph "Private Layer\n(Internal Services)"
+        direction TB
+        Cat_Py["Catalog Python\nPort: 8101"]
+        Cat_Node["Catalog Node\nPort: 8102"]
+    end
+    
+    subgraph "Data Layer\n(Persistent Storage)"
+        direction TB
+        DB_Py["SQLite + FTS5\nPython"]
+        DB_Node["SQLite + FTS5\nNode"]
+    end
+    
+    subgraph "File System\n(Static Assets)"
+        direction TB
+        Context["Context Files"]
+        Workflows["Workflows\n2,057+ JSON"]
+    end
+    
+    GW_Py -->|Proxy /api/*| Cat_Py
+    GW_Node -->|Proxy /api/*| Cat_Node
+    
+    Cat_Py -->|Store/Query| DB_Py
+    Cat_Node -->|Store/Query| DB_Node
+    
+    Cat_Py -->|Read| Context
+    Cat_Py -->|Read| Workflows
+    Cat_Node -->|Read| Context
+    Cat_Node -->|Read| Workflows
+    
+    style GW_Py fill:#e1f5fe,stroke:#0277bd
+    style GW_Node fill:#e1f5fe,stroke:#0277bd
+    style Cat_Py fill:#e8f5e9,stroke:#2e7d32
+    style Cat_Node fill:#e8f5e9,stroke:#2e7d32
+    style DB_Py fill:#fff3e0,stroke:#e65100
+    style DB_Node fill:#fff3e0,stroke:#e65100
+    style Context fill:#fff3e0,stroke:#e65100
+    style Workflows fill:#fff3e0,stroke:#e65100
+```
+
+### Request Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Gateway
+    participant Catalog
+    participant Database
+    
+    User->>Browser: Open http://localhost:8000
+    Browser->>Gateway: GET / (HTML)
+    Gateway->>Browser: Return index.html
+    
+    Browser->>Gateway: GET /api/workflows?q=telegram
+    Gateway->>Catalog: Proxy request
+    Catalog->>Database: Query workflows_fts
+    Database->>Catalog: Return results (BM25 ranked)
+    Catalog->>Gateway: Return JSON
+    Gateway->>Browser: Return JSON
+    
+    Browser->>Gateway: GET /api/workflows/0057...json/diagram
+    Gateway->>Catalog: Proxy request
+    Catalog->>Workflows: Read JSON file
+    Catalog->>Catalog: Generate Mermaid
+    Catalog->>Gateway: Return diagram
+    Gateway->>Browser: Return diagram
+    
+    Note over Browser,Database: Full-Text Search with FTS5
+    Note over Catalog,Database: SQLite with BM25 ranking
+    Note over Gateway,Catalog: REST API Proxy
+```
+
+### Service Architecture Details
+
+```mermaid
+classDiagram
+    class Gateway {
+        +serveStaticFiles()
+        +proxyAPIRequests()
+        +healthCheck()
+        -catalogURL
+        -timeout
+    }
+    
+    class Catalog {
+        +searchWorkflows()
+        +getWorkflow()
+        +getStatistics()
+        +generateDiagram()
+        -database
+        -workflowsDir
+        -contextDir
+    }
+    
+    class Database {
+        +query()
+        +insert()
+        +update()
+        -SQLite
+        -FTS5
+    }
+    
+    class Workflow {
+        +id
+        +filename
+        +name
+        +description
+        +trigger_type
+        +complexity
+        +category
+        +node_count
+        +integrations
+    }
+    
+    Gateway --> Catalog : Proxies to
+    Catalog --> Database : Uses
+    Catalog --> Workflow : Manages
+    
+    style Gateway fill:#e1f5fe,stroke:#0277bd
+    style Catalog fill:#e8f5e9,stroke:#2e7d32
+    style Database fill:#fff3e0,stroke:#e65100
+    style Workflow fill:#f3e5f5,stroke:#7b1fa2
+```
+
+### Service Breakdown
+
+| Service | Python Port | Node Port | Responsibility | Access |
+|---------|-------------|-----------|----------------|--------|
+| **Catalog** | 8101 | 8102 | Database, indexing, search, stats, diagrams | Private |
+| **Gateway** | 8000 | 8001 | Static files, API proxy, health checks | Public |
+| **Categorizer** | N/A | N/A | Category generation (batch job) | On-demand |
+
+---
+
+## Source Layout
+
+```
+n8n-templates/
+├── README.md                          # Project documentation (this file)
+├── docker-compose.yml                 # Docker orchestration
+├── Dockerfile                         # Multi-stage build (Python + Node)
+├── .devcontainer/                     # Dev container configuration
+│   └── devcontainer.json
+├── .dockerignore                      # Docker ignore patterns
+├── .gitignore                         # Git ignore patterns
+│
+├── client/                            # Web client (static files)
+│   ├── index.html                     # Main HTML page
+│   └── assets/                        # CSS, JS, images
+│       ├── css/
+│       │   └── styles.css
+│       └── js/
+│           ├── state.js              # State management
+│           ├── api.js                # API client
+│           ├── theme.js              # Theme management
+│           ├── workflows.js          # Workflow logic
+│           ├── render.js             # Rendering logic
+│           ├── modal.js              # Modal dialogs
+│           ├── diagram.js            # Diagram rendering
+│           └── app.js                # Main application
+│
+├── context/                           # Category definitions and mappings
+│   ├── def_categories.json            # Curated integration -> category definitions (726+ entries)
+│   ├── search_categories.json         # Generated filename -> category mappings
+│   └── unique_categories.json        # Generated list of unique categories (16 categories)
+│
+├── data/                              # SQLite databases (gitignored)
+│   ├── python/
+│   │   └── workflows.db              # Python catalog database
+│   └── node/
+│       └── workflows.db              # Node catalog database
+│
+├── scripts/                           # Launch and management scripts
+│   ├── catalog-python.sh              # Start Python catalog
+│   ├── catalog-node.sh                # Start Node catalog
+│   ├── gateway-python.sh              # Start Python gateway
+│   ├── gateway-node.sh                # Start Node gateway
+│   ├── categorize-python.sh           # Run Python categorizer
+│   ├── categorize-node.sh             # Run Node categorizer
+│   ├── dev-python.sh                  # Start Python dev stack (catalog + gateway)
+│   ├── dev-node.sh                    # Start Node dev stack (catalog + gateway)
+│   ├── index-workflows.sh             # Index all workflows
+│   └── run-as-docker-container.sh     # Run as Docker container
+│
+├── services/                          # Service implementations
+│   ├── python/                        # Python microservices
+│   │   ├── catalog/
+│   │   │   ├── __main__.py
+│   │   │   ├── config.py
+│   │   │   ├── contracts.py
+│   │   │   ├── api/
+│   │   │   │   ├── app.py
+│   │   │   │   ├── dependencies.py
+│   │   │   │   ├── routes_admin.py
+│   │   │   │   ├── routes_categories.py
+│   │   │   │   ├── routes_stats.py
+│   │   │   │   └── routes_workflows.py
+│   │   │   ├── cli/
+│   │   │   │   └── index.py
+│   │   │   ├── db/
+│   │   │   │   ├── connection.py
+│   │   │   │   ├── fts_query.py
+│   │   │   │   ├── schema.py
+│   │   │   │   └── workflow_repository.py
+│   │   │   ├── domain/
+│   │   │   │   ├── analyzer.py
+│   │   │   │   ├── categories.py
+│   │   │   │   ├── description.py
+│   │   │   │   ├── diagram.py
+│   │   │   │   ├── integrations.py
+│   │   │   │   └── naming.py
+│   │   │   └── services/
+│   │   │       ├── category_service.py
+│   │   │       ├── index_service.py
+│   │   │       ├── search_service.py
+│   │   │       ├── stats_service.py
+│   │   │       ├── workflow_files.py
+│   │   │       └── workflow_service.py
+│   │   │
+│   │   ├── gateway/
+│   │   │   ├── __main__.py
+│   │   │   ├── app.py
+│   │   │   ├── catalog_client.py
+│   │   │   └── routes/
+│   │   │       ├── pages.py
+│   │   │       └── proxy.py
+│   │   │
+│   │   ├── categorizer/
+│   │   │   ├── __main__.py
+│   │   │   ├── defs.py
+│   │   │   ├── rules.py
+│   │   │   └── runner.py
+│   │   │
+│   │   └── requirements.txt
+│   │
+│   └── node/                           # Node.js microservices
+│       ├── catalog/
+│       │   ├── src/
+│       │   │   ├── index.js
+│       │   │   ├── config.js
+│       │   │   ├── contracts.js
+│       │   │   ├── api/
+│       │   │   │   ├── app.js
+│       │   │   │   ├── routesAdmin.js
+│       │   │   │   ├── routesWorkflows.js
+│       │   │   │   ├── routesCategories.js
+│       │   │   │   └── routesStats.js
+│       │   │   ├── db/
+│       │   │   │   ├── connection.js
+│       │   │   │   ├── schema.js
+│       │   │   │   ├── ftsQuery.js
+│       │   │   │   └── workflowRepository.js
+│       │   │   ├── domain/
+│       │   │   │   ├── analyzer.js
+│       │   │   │   ├── categories.js
+│       │   │   │   ├── description.js
+│       │   │   │   ├── diagram.js
+│       │   │   │   ├── integrations.js
+│       │   │   │   └── naming.js
+│       │   │   ├── services/
+│       │   │   │   ├── context.js
+│       │   │   │   ├── indexService.js
+│       │   │   │   ├── searchService.js
+│       │   │   │   ├── statsService.js
+│       │   │   │   ├── workflowFiles.js
+│       │   │   │   ├── categoryService.js
+│       │   │   │   └── workflowService.js
+│       │   │   └── cli/
+│       │   │       └── index.js
+│       │   └── package.json
+│       │
+│       └── gateway/
+│           └── src/
+│               ├── index.js
+│               ├── config.js
+│               ├── catalogClient.js
+│               └── routes/
+│                   ├── pages.js
+│                   └── proxy.js
+│
+└── workflows/                          # Workflow JSON files
+    ├── Activecampaign/
+    │   └── 0057_Activecampaign_Create_Triggered.json
+    ├── Airtable/
+    │   ├── 0001_Airtable_Create_Triggered.json
+    │   └── ...
+    ├── Asana/
+    ├── Discord/
+    ├── Gmail/
+    ├── Google/
+    ├── Slack/
+    ├── Telegram/
+    └── ... (188+ integration folders)
+        └── 2,057+ workflow JSON files
+```
+
+---
+
+## Key Features
+
+### Core Capabilities
+
+1. **Comprehensive Workflow Collection**
+   - 2,057+ curated n8n workflows
+   - 188+ integration categories
+   - 96+ unique integrations supported
+   - 29,528+ total nodes across all workflows
+
+2. **Advanced Search & Filtering**
+   - Full-text search with SQLite FTS5
+   - BM25 ranking algorithm for relevance
+   - Filter by trigger type, complexity, category
+   - Active/inactive workflow filtering
+   - Pagination support
+
+3. **Intelligent Categorization**
+   - 16 well-defined categories
+   - Two-tier categorization system:
+     - Definition-based (726+ integration mappings)
+     - Rule-based (keyword matching fallback)
+   - Automatic category assignment
+
+4. **Statistics & Analytics**
+   - Real-time collection statistics
+   - Trigger distribution analysis
+   - Complexity metrics
+   - Integration usage tracking
+
+5. **Visualization**
+   - Mermaid.js diagram generation
+   - Interactive workflow visualization
+   - Node and connection mapping
+
+6. **Dual-Stack Implementation**
+   - Python (FastAPI) implementation
+   - Node.js (Express) implementation
+   - Identical JSON contracts
+   - Same algorithms and logic
+   - Can run both simultaneously
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+- **Python 3.10+** (for Python stack)
+- **Node.js 22.5+** (for Node stack)
+- **Docker & Docker Compose** (for containerized deployment)
+- **Git** (for cloning)
+
+### Option 1: Python Stack (Recommended for Development)
+
+```bash
+# Install dependencies
+pip install -r services/python/requirements.txt
+
+# Run catalog service (indexes on first run)
+./scripts/catalog-python.sh        # http://127.0.0.1:8101
+
+# Run gateway service
+./scripts/gateway-python.sh        # http://127.0.0.1:8000
+
+# Or run both together
+./scripts/dev-python.sh
+```
+
+**Access**: http://localhost:8000
+
+### Option 2: Node Stack
+
+```bash
+# Run catalog service (installs deps on first run)
+./scripts/catalog-node.sh          # http://127.0.0.1:8102
+
+# Run gateway service
+./scripts/gateway-node.sh          # http://127.0.0.1:8001
+
+# Or run both together
+./scripts/dev-node.sh
+```
+
+**Access**: http://localhost:8001
+
+### Option 3: Docker (Production-Ready)
+
+```bash
+# Build and run all services
+docker-compose up -d
+
+# Wait for services to start (60-90 seconds)
+# Python gateway: http://localhost:8000
+# Node gateway:   http://localhost:8001
+```
+
+**Access**:
+- Python: http://localhost:8000
+- Node: http://localhost:8001
+
+---
+
+## Collection Statistics
+
+### Overview
+
+| Metric | Value |
+|--------|-------|
+| **Total Workflows** | 2,057 |
+| **Active Workflows** | 217 |
+| **Inactive Workflows** | 1,840 |
+| **Total Nodes** | 29,528 |
+| **Unique Integrations** | 96 |
+| **Categories** | 16 |
+| **Subdirectories** | 188 |
+
+### Trigger Distribution
+
+| Trigger Type | Count | Percentage |
+|--------------|-------|------------|
+| Webhook | 713 | 34.7% |
+| Complex | 619 | 30.1% |
+| Manual | 414 | 20.1% |
+| Scheduled | 311 | 15.1% |
+
+### Complexity Distribution
+
+| Complexity | Count | Percentage | Node Range |
+|------------|-------|------------|------------|
+| Low | 566 | 27.5% | <=5 nodes |
+| Medium | 775 | 37.7% | 6-15 nodes |
+| High | 716 | 34.8% | 16+ nodes |
 
 ### Available Categories
 
-The categorization system includes the following main categories:
-- AI Agent Development
-- Business Process Automation
-- Cloud Storage & File Management
-- Communication & Messaging
-- Creative Content & Video Automation
-- Creative Design Automation
-- CRM & Sales
-- Data Processing & Analysis
-- E-commerce & Retail
-- Financial & Accounting
-- Marketing & Advertising Automation
-- Project Management
-- Social Media Management
-- Technical Infrastructure & DevOps
-- Web Scraping & Data Extraction
-
-### Contribute Categories
-
-You can help expand the categorization by adding more service-to-category mappings (e.g., Twilio → Communication & Messaging) in context/defs_categories.json.
-
-Many workflow JSON files are conveniently named with the service name, often separated by underscores (_).
-
+1. **AI Agent Development** - OpenAI, Anthropic, Hugging Face, LangChain
+2. **Business Process Automation** - Noop, Code, Schedule, Filter, Wait
+3. **Cloud Storage & File Management** - AWS S3, Google Drive, Dropbox, OneDrive
+4. **Communication & Messaging** - Telegram, Slack, Discord, WhatsApp, Email
+5. **Creative Content & Video Automation** - YouTube, Vimeo, Storyblok
+6. **Creative Design Automation** - Canva, Figma, Bannerbear
+7. **CRM & Sales** - HubSpot, Salesforce, Pipedrive, Copper
+8. **Data Processing & Analysis** - PostgreSQL, MySQL, MongoDB, Airtable
+9. **E-commerce & Retail** - Shopify, WooCommerce, Stripe, PayPal
+10. **Financial & Accounting** - Stripe, Chargebee, QuickBooks
+11. **Marketing & Advertising Automation** - Mailchimp, SendGrid, ActiveCampaign
+12. **Project Management** - Jira, GitHub, GitLab, Trello, Asana
+13. **Social Media Management** - LinkedIn, Twitter/X, Facebook, Instagram
+14. **Technical Infrastructure & DevOps** - Git, Travis CI, Jenkins, AWS
+15. **Web Scraping & Data Extraction** - Webhook, HTTP, RSS Feed
+16. **Uncategorized** - Workflows awaiting categorization
 
 ---
 
-## 🛠 Usage Instructions
+## Configuration
 
-### Option 1: Modern Fast System (Recommended)
-```bash
-# Clone repository
-git clone <repo-url>
-cd n8n-workflows
+### Environment Variables
 
-# Install Python dependencies
-pip install -r requirements.txt
+All services read environment variables and resolve paths from the repository root.
 
-# Start the documentation server
-python run.py
+#### Catalog Service
 
-# Browse workflows at http://localhost:8000
-# - Instant search across 2,053 workflows
-# - Professional responsive interface
-# - Real-time workflow statistics
-```
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `N8N_REPO_ROOT` | auto-detected | Repository root path |
+| `N8N_WORKFLOWS_DIR` | `<root>/workflows` | Workflows directory |
+| `N8N_CONTEXT_DIR` | `<root>/context` | Context files directory |
+| `N8N_DB_PATH` | `data/python/workflows.db` | Database path (Python) |
+| `N8N_DB_PATH` | `data/node/workflows.db` | Database path (Node) |
+| `N8N_AUTO_INDEX` | `true` | Auto-index on startup |
+| `CATALOG_HOST` | `127.0.0.1` | Catalog host |
+| `CATALOG_PORT` | `8101` (Python) / `8102` (Node) | Catalog port |
 
-### Option 2: Development Mode
-```bash
-# Start with auto-reload for development
-python run.py --dev
+#### Gateway Service
 
-# Or specify custom host/port
-python run.py --host 0.0.0.0 --port 3000
-
-# Force database reindexing
-python run.py --reindex
-```
-
-### Import Workflows into n8n
-```bash
-# Use the Python importer (recommended)
-python import_workflows.py
-
-# Or manually import individual workflows:
-# 1. Open your n8n Editor UI
-# 2. Click menu (☰) → Import workflow
-# 3. Choose any .json file from the workflows/ folder
-# 4. Update credentials/webhook URLs before running
-```
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `N8N_REPO_ROOT` | auto-detected | Repository root path |
+| `N8N_CLIENT_DIR` | `<root>/client` | Client files directory |
+| `CATALOG_URL` | `http://127.0.0.1:8101` (Python) / `8102` (Node) | Catalog URL |
+| `CATALOG_TIMEOUT_SECONDS` | `60` | Catalog timeout (Python) |
+| `CATALOG_TIMEOUT_MS` | `60000` | Catalog timeout (Node) |
+| `GATEWAY_HOST` | `127.0.0.1` | Gateway host |
+| `GATEWAY_PORT` | `8000` (Python) / `8001` (Node) | Gateway port |
 
 ---
 
-## 📊 Workflow Statistics
+## API Documentation
 
-### Current Collection Stats
-- **Total Workflows**: 2,053 automation workflows
-- **Active Workflows**: 215 (10.5% active rate)
-- **Total Nodes**: 29,445 (avg 14.3 nodes per workflow)
-- **Unique Integrations**: 365 different services and APIs
-- **Database**: SQLite with FTS5 full-text search
+### Base URL
 
-### Trigger Distribution
-- **Complex**: 831 workflows (40.5%) - Multi-trigger systems
-- **Webhook**: 519 workflows (25.3%) - API-triggered automations  
-- **Manual**: 477 workflows (23.2%) - User-initiated workflows
-- **Scheduled**: 226 workflows (11.0%) - Time-based executions
+- Python Gateway: `http://localhost:8000/api`
+- Node Gateway: `http://localhost:8001/api`
 
-### Complexity Analysis
-- **Low (≤5 nodes)**: ~35% - Simple automations
-- **Medium (6-15 nodes)**: ~45% - Standard workflows
-- **High (16+ nodes)**: ~20% - Complex enterprise systems
+### Endpoints
 
-### Popular Integrations
-Top services by usage frequency:
-- **Communication**: Telegram, Discord, Slack, WhatsApp
-- **Cloud Storage**: Google Drive, Google Sheets, Dropbox
-- **Databases**: PostgreSQL, MySQL, MongoDB, Airtable
-- **AI/ML**: OpenAI, Anthropic, Hugging Face
-- **Development**: HTTP Request, Webhook, GraphQL
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/health` | Service health check |
+| `GET` | `/api/stats` | Collection statistics |
+| `GET` | `/api/integrations` | List all unique integrations |
+| `GET` | `/api/categories` | List all categories |
+| `GET` | `/api/category-mappings` | Get filename -> category mappings |
+| `GET` | `/api/workflows` | Search and filter workflows |
+| `GET` | `/api/workflows/category/{category}` | Workflows by category |
+| `GET` | `/api/workflows/{filename}` | Get workflow metadata + raw JSON |
+| `GET` | `/api/workflows/{filename}/diagram` | Get Mermaid diagram |
+| `GET` | `/api/workflows/{filename}/download` | Download workflow JSON |
+| `POST` | `/api/reindex?force=true` | Trigger reindexing |
 
----
+### Query Parameters for `/api/workflows`
 
-## 🔍 Advanced Search Features
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `q` | string | "" | Search query (full-text search) |
+| `trigger` | string | "all" | Filter by trigger type (Webhook, Scheduled, Manual, Complex, all) |
+| `complexity` | string | "all" | Filter by complexity (low, medium, high, all) |
+| `category` | string | "all" | Filter by category |
+| `active_only` | boolean | false | Filter to active workflows only |
+| `page` | integer | 1 | Page number (1-based) |
+| `per_page` | integer | 20 | Items per page (1-100) |
 
-### Smart Search Categories
-Our system automatically categorizes workflows into 12 service categories:
-
-#### Available Categories:
-- **messaging**: Telegram, Discord, Slack, WhatsApp, Teams
-- **ai_ml**: OpenAI, Anthropic, Hugging Face 
-- **database**: PostgreSQL, MySQL, MongoDB, Redis, Airtable
-- **email**: Gmail, Mailjet, Outlook, SMTP/IMAP
-- **cloud_storage**: Google Drive, Google Docs, Dropbox, OneDrive
-- **project_management**: Jira, GitHub, GitLab, Trello, Asana
-- **social_media**: LinkedIn, Twitter/X, Facebook, Instagram
-- **ecommerce**: Shopify, Stripe, PayPal
-- **analytics**: Google Analytics, Mixpanel
-- **calendar_tasks**: Google Calendar, Cal.com, Calendly
-- **forms**: Typeform, Google Forms, Form Triggers
-- **development**: Webhook, HTTP Request, GraphQL, SSE
-
-### API Usage Examples
-```bash
-# Search workflows by text
-curl "http://localhost:8000/api/workflows?q=telegram+automation"
-
-# Filter by trigger type and complexity
-curl "http://localhost:8000/api/workflows?trigger=Webhook&complexity=high"
-
-# Find all messaging workflows
-curl "http://localhost:8000/api/workflows/category/messaging"
-
-# Get database statistics
-curl "http://localhost:8000/api/stats"
-
-# Browse available categories
-curl "http://localhost:8000/api/categories"
-```
-
----
-
-## 🏗 Technical Architecture
-
-### Modern Stack
-- **SQLite Database** - FTS5 full-text search with 365 indexed integrations
-- **FastAPI Backend** - RESTful API with automatic OpenAPI documentation
-- **Responsive Frontend** - Modern HTML5 with embedded CSS/JavaScript
-- **Smart Analysis** - Automatic workflow categorization and naming
-
-### Key Features
-- **Change Detection** - MD5 hashing for efficient re-indexing
-- **Background Processing** - Non-blocking workflow analysis
-- **Compressed Responses** - Gzip middleware for optimal speed
-- **Error Handling** - Graceful degradation and comprehensive logging
-- **Mobile Optimization** - Touch-friendly interface design
-
-### Database Performance
-```sql
--- Optimized schema for lightning-fast queries
-CREATE TABLE workflows (
-    id INTEGER PRIMARY KEY,
-    filename TEXT UNIQUE,
-    name TEXT,
-    active BOOLEAN,
-    trigger_type TEXT,
-    complexity TEXT,
-    node_count INTEGER,
-    integrations TEXT,  -- JSON array of 365 unique services
-    description TEXT,
-    file_hash TEXT,     -- MD5 for change detection
-    analyzed_at TIMESTAMP
-);
-
--- Full-text search with ranking
-CREATE VIRTUAL TABLE workflows_fts USING fts5(
-    filename, name, description, integrations, tags,
-    content='workflows', content_rowid='id'
-);
-```
-
----
-
-## 🔧 Setup & Requirements
-
-### System Requirements
-- **Python 3.7+** - For running the documentation system
-- **Modern Browser** - Chrome, Firefox, Safari, Edge
-- **50MB Storage** - For SQLite database and indexes
-- **n8n Instance** - For importing and running workflows
-
-### Installation
-```bash
-# Clone repository
-git clone <repo-url>
-cd n8n-workflows
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start documentation server
-python run.py
-
-# Access at http://localhost:8000
-```
-
-### Development Setup
-```bash
-# Create virtual environment
-python3 -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-# or .venv\Scripts\activate  # Windows
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run with auto-reload for development
-python api_server.py --reload
-
-# Force database reindexing
-python workflow_db.py --index --force
-```
-
----
-
-## 📋 Naming Convention
-
-### Intelligent Formatting System
-Our system automatically converts technical filenames to user-friendly names:
+### Example Requests
 
 ```bash
-# Automatic transformations:
-2051_Telegram_Webhook_Automation_Webhook.json → "Telegram Webhook Automation"
-0250_HTTP_Discord_Import_Scheduled.json → "HTTP Discord Import Scheduled"  
-0966_OpenAI_Data_Processing_Manual.json → "OpenAI Data Processing Manual"
+# Get collection statistics
+curl http://localhost:8000/api/stats
+
+# Search workflows
+curl "http://localhost:8000/api/workflows?q=telegram&category=Communication%20%26%20Messaging"
+
+# List all integrations
+curl http://localhost:8000/api/integrations
+
+# Get a workflow's diagram
+curl http://localhost:8000/api/workflows/0748_Noop_Telegram_Automation_Scheduled.json/diagram
+
+# Download a workflow
+curl http://localhost:8000/api/workflows/0057_Activecampaign_Create_Triggered.json/download -o workflow.json
 ```
 
-### Technical Format
-```
-[ID]_[Service1]_[Service2]_[Purpose]_[Trigger].json
-```
+### Response Formats
 
-### Smart Capitalization Rules
-- **HTTP** → HTTP (not Http)
-- **API** → API (not Api)  
-- **webhook** → Webhook
-- **automation** → Automation
-- **scheduled** → Scheduled
+#### Workflow Summary
 
----
-
-## 🚀 API Documentation
-
-### Core Endpoints
-- `GET /` - Main workflow browser interface
-- `GET /api/stats` - Database statistics and metrics
-- `GET /api/workflows` - Search with filters and pagination
-- `GET /api/workflows/{filename}` - Detailed workflow information
-- `GET /api/workflows/{filename}/download` - Download workflow JSON
-- `GET /api/workflows/{filename}/diagram` - Generate Mermaid diagram
-
-### Advanced Search
-- `GET /api/workflows/category/{category}` - Search by service category
-- `GET /api/categories` - List all available categories
-- `GET /api/integrations` - Get integration statistics
-- `POST /api/reindex` - Trigger background reindexing
-
-### Response Examples
 ```json
-// GET /api/stats
 {
-  "total": 2053,
-  "active": 215,
-  "inactive": 1838,
+  "id": 1,
+  "filename": "0057_Activecampaign_Create_Triggered.json",
+  "name": "ActiveCampaign Create Triggered",
+  "active": false,
+  "description": "Receive updates when a new account is added by an admin in ActiveCampaign",
+  "trigger_type": "Triggered",
+  "complexity": "low",
+  "category": "Marketing & Advertising Automation",
+  "node_count": 1,
+  "integrations": ["ActiveCampaign"],
+  "tags": [],
+  "folder": "Activecampaign",
+  "created_at": "2024-01-01T00:00:00Z",
+  "updated_at": "2024-01-01T00:00:00Z"
+}
+```
+
+#### Statistics Response
+
+```json
+{
+  "total": 2057,
+  "active": 217,
+  "inactive": 1840,
   "triggers": {
-    "Complex": 831,
-    "Webhook": 519,
-    "Manual": 477,
-    "Scheduled": 226
+    "Webhook": 713,
+    "Complex": 619,
+    "Manual": 414,
+    "Scheduled": 311
   },
-  "total_nodes": 29445,
-  "unique_integrations": 365
+  "complexity": {
+    "low": 566,
+    "medium": 775,
+    "high": 716
+  },
+  "total_nodes": 29528,
+  "unique_integrations": 96,
+  "last_indexed": "2025-01-01T12:00:00Z"
 }
 ```
 
 ---
 
-## 🤝 Contributing
+## Indexing & Categories
+
+### Indexing Workflows
+
+The catalog automatically indexes all workflow JSON files recursively under `workflows/`.
+
+```bash
+# Incremental indexing (skips unchanged files by MD5)
+./scripts/index-workflows.sh python
+
+# Force re-index all workflows
+./scripts/index-workflows.sh python --force
+
+# Stats only (no indexing)
+./scripts/index-workflows.sh python --stats
+
+# Node equivalents
+./scripts/index-workflows.sh node --force
+```
+
+### Categorization
+
+Workflows are categorized using a two-tier system:
+
+1. **Definition-based**: Matches integration names against `context/def_categories.json`
+2. **Rule-based**: Falls back to keyword matching in `services/python/categorizer/rules.py`
+
+```bash
+# Regenerate category files
+./scripts/categorize-python.sh
+./scripts/categorize-node.sh
+
+# Then re-index
+./scripts/index-workflows.sh python --force
+```
+
+### Upgrading Database
+
+The schema is versioned (`PRAGMA user_version`). If upgrading from an older version:
+
+```bash
+# The category column was added in version 3
+# Run this once after upgrading
+./scripts/index-workflows.sh python --force
+```
+
+---
+
+## Web Client Features
+
+### User Interface
+
+- **Instant Search**: Full-text search with FTS5 (results in milliseconds)
+- **Advanced Filtering**: Filter by trigger, complexity, category, active status
+- **Pagination**: 20 items per page with stable ordering
+- **Diagram Viewer**: Interactive Mermaid.js workflow visualization
+- **Dark Mode**: Theme toggle for comfortable viewing
+- **Responsive Design**: Works on desktop, tablet, and mobile
+
+### Technology Stack
+
+- **Frontend**: Vanilla JavaScript (no framework dependencies)
+- **Styling**: Custom CSS with modern design
+- **Diagrams**: Mermaid.js for workflow visualization
+- **State Management**: Custom state management
+- **API Client**: Fetch-based HTTP client
+
+---
+
+## Workflow Naming Convention
+
+Workflows follow a consistent naming pattern:
+
+```
+<id>_<Service>_<Goal>_<Trigger>.json
+```
+
+Examples:
+- `0057_Activecampaign_Create_Triggered.json`
+- `1234_HTTP_Slack_Create_Webhook.json`
+- `0748_Noop_Telegram_Automation_Scheduled.json`
+
+### Display Name Formatting
+
+Filenames are automatically converted to human-readable names:
+- `1234_HTTP_Slack_Create_Webhook.json` -> `HTTP Slack Create Webhook`
+- Leading numeric prefixes are removed
+- Special terms are normalized (HTTP, API, JSON, etc.)
+- Words are title-cased
+
+---
+
+## Importing Workflows into n8n
+
+1. Open your n8n editor
+2. Choose **Import workflow**
+3. Select any JSON file from `workflows/` directory
+4. Update credentials and webhook URLs before running
+
+---
+
+## Contributing
+
+We welcome contributions from the community! Here's how to contribute:
 
 ### Adding New Workflows
-1. **Export workflow** as JSON from n8n
-2. **Name descriptively** following the established pattern
-3. **Add to workflows/** directory
-4. **Remove sensitive data** (credentials, personal URLs)
-5. **Run reindexing** to update the database
 
-### Quality Standards
-- ✅ Workflow must be functional and tested
-- ✅ Remove all credentials and sensitive data
-- ✅ Follow naming convention for consistency
-- ✅ Verify compatibility with recent n8n versions
-- ✅ Include meaningful description or comments
+1. Add workflow JSON files under `workflows/` (subfolders are supported)
+2. Follow the naming convention: `<id>_<Service>_<Goal>_<Trigger>.json`
+3. Run the categorizer:
+   ```bash
+   ./scripts/categorize-python.sh
+   ```
+4. Reindex the catalog:
+   ```bash
+   ./scripts/index-workflows.sh python --force
+   ```
+5. Verify the stats:
+   ```bash
+   curl http://localhost:8000/api/stats
+   ```
 
----
+### Updating Categories
 
-## ⚠️ Important Notes
+Edit `context/def_categories.json` to add new integration-to-category mappings:
 
-### Security & Privacy
-- **Review before use** - All workflows shared as-is for educational purposes
-- **Update credentials** - Replace API keys, tokens, and webhooks
-- **Test safely** - Verify in development environment first
-- **Check permissions** - Ensure proper access rights for integrations
+```json
+{
+  "integration": "NewIntegration",
+  "category": "Category Name"
+}
+```
 
-### Compatibility
-- **n8n Version** - Compatible with n8n 1.0+ (most workflows)
-- **Community Nodes** - Some workflows may require additional node installations
-- **API Changes** - External services may have updated their APIs since creation
-- **Dependencies** - Verify required integrations before importing
+Then regenerate category files and reindex.
 
----
-
-## 📚 Resources & References
-
-### Workflow Sources
-This comprehensive collection includes workflows from:
-- **Official n8n.io** - Documentation and community examples
-- **GitHub repositories** - Open source community contributions  
-- **Blog posts & tutorials** - Real-world automation patterns
-- **User submissions** - Tested and verified workflows
-- **Enterprise use cases** - Business process automations
-
-### Learn More
-- [n8n Documentation](https://docs.n8n.io/) - Official documentation
-- [n8n Community](https://community.n8n.io/) - Community forum and support
-- [Workflow Templates](https://n8n.io/workflows/) - Official template library
-- [Integration Docs](https://docs.n8n.io/integrations/) - Service-specific guides
+For detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
 
-## 🏆 Project Achievements
+## License
 
-### Repository Transformation
-- **2,053 workflows** professionally organized and named
-- **365 unique integrations** automatically detected and categorized
-- **100% meaningful names** (improved from basic filename patterns)
-- **Zero data loss** during intelligent renaming process
-- **Advanced search** with 12 service categories
-
-### Performance Revolution
-- **Sub-100ms search** with SQLite FTS5 full-text indexing
-- **Instant filtering** across 29,445 workflow nodes
-- **Mobile-optimized** responsive design for all devices
-- **Real-time statistics** with live database queries
-- **Professional interface** with modern UX principles
-
-### System Reliability
-- **Robust error handling** with graceful degradation
-- **Change detection** for efficient database updates
-- **Background processing** for non-blocking operations
-- **Comprehensive logging** for debugging and monitoring
-- **Production-ready** with proper middleware and security
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-*This repository represents the most comprehensive and well-organized collection of n8n workflows available, featuring cutting-edge search technology and professional documentation that makes workflow discovery and usage a delightful experience.*
+## Support & Contact
 
-**🎯 Perfect for**: Developers, automation engineers, business analysts, and anyone looking to streamline their workflows with proven n8n automations.
+### Support My Work
+
+[![Buy Me a Coffee](https://img.shields.io/badge/-Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black&style=flat)](https://buymeacoffee.com/firefistisdead)
+
+### Contact Information
+
+For business inquiries, partnerships, or support:
+
+- **Website**: [https://aceinteligence.systems](https://aceinteligence.systems)
+- **Email**: contact@aceinteligence.systems
+- **Founder**: OM CHOKSI - om@aceinteligence.systems
+- **Co-Founder**: Yash Khare - yash@aceinteligence.systems
+
+### Professional Services
+
+AceIntelligence Systems offers professional services including:
+
+- **n8n Workflow Development**: Custom workflow automation solutions
+- **System Integration**: Connecting your tools and services
+- **AI Integration**: Adding AI capabilities to your workflows
+- **Consulting**: Expert advice on automation strategy
+- **Training**: Workshops and training sessions
+- **Support**: Ongoing maintenance and support
+
+Visit [https://aceinteligence.systems](https://aceinteligence.systems) for more information.
+
+---
+
+## Additional Resources
+
+- [n8n Official Documentation](https://docs.n8n.io/)
+- [n8n Community Forum](https://community.n8n.io/)
+- [n8n GitHub](https://github.com/n8n-io/n8n)
+- [AceIntelligence Systems](https://aceinteligence.systems)
+
+---
+
+## Acknowledgments
+
+- **n8n Team**: For building an amazing workflow automation tool
+- **Open Source Community**: For contributions and feedback
+- **All Contributors**: For helping improve this collection
+
+---
+
+**Built with love by AceIntelligence Systems**
+
+*OM CHOKSI & Yash Khare*
+
+*Copyright 2025 AceIntelligence Systems. All rights reserved.*

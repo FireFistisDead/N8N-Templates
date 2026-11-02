@@ -1,0 +1,36 @@
+services:
+  # Single combined service: gateway + catalog in one container.
+  # Render's free tier spins services down independently on idle, and a
+  # sleeping service only wakes on a direct external request - not on an
+  # internal proxy call from another Render service. Splitting gateway and
+  # catalog into two free services meant they'd desync (gateway awake,
+  # catalog asleep -> 502). Running catalog in-process avoids that; see
+  # services/python/gateway/start.sh.
+  - type: web
+    name: n8n-gateway
+    runtime: docker
+    dockerfilePath: ./services/python/gateway/Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: GATEWAY_HOST
+        value: 0.0.0.0
+      - key: GATEWAY_PORT
+        value: 8000
+      - key: PORT
+        value: 8000
+      - key: RENDER_COMBINED
+        value: "true"
+      - key: CATALOG_HOST
+        value: 127.0.0.1
+      - key: CATALOG_PORT
+        value: 8101
+      - key: CATALOG_URL
+        value: http://127.0.0.1:8101
+      - key: CATALOG_TIMEOUT_SECONDS
+        value: 60
+      - key: N8N_AUTO_INDEX
+        value: "true"
+      - key: N8N_REPO_ROOT
+        value: /app

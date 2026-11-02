@@ -625,7 +625,7 @@
   },
   {
     "filename": "0157_Manual_Import_Triggered.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "0158_Telegram_Functionitem_Create_Scheduled.json",
@@ -637,7 +637,7 @@
   },
   {
     "filename": "0160_Manual_Automation_Triggered.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "0161_Openweathermap_Spontit_Update_Scheduled.json",
@@ -689,7 +689,7 @@
   },
   {
     "filename": "0173_Manual_Automate_Triggered.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "0174_Noop_Emailsend_Automation_Scheduled.json",
@@ -713,7 +713,7 @@
   },
   {
     "filename": "0179_Manual_Automate_Triggered.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "0180_Mattermost_Airtable_Create_Triggered.json",
@@ -2945,7 +2945,7 @@
   },
   {
     "filename": "0737_Manual_Executecommand_Automation_Triggered.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "0738_Customerio_Update_Triggered.json",
@@ -3409,7 +3409,7 @@
   },
   {
     "filename": "0853_Manual_Executecommand_Automate_Triggered.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "0854_Splitout_Filter_Create_Scheduled.json",
@@ -4101,7 +4101,7 @@
   },
   {
     "filename": "1026_Manual_Graphql_Automate_Triggered.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1027_Manual_Box_Automate_Triggered.json",
@@ -4173,7 +4173,7 @@
   },
   {
     "filename": "1044_Manual_Automate_Triggered.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1045_Manual_Renamekeys_Automate_Triggered.json",
@@ -4389,7 +4389,7 @@
   },
   {
     "filename": "1098_Manual_Import_Triggered.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1099_Error_Gmail_Send_Triggered.json",
@@ -4489,15 +4489,15 @@
   },
   {
     "filename": "1123_Automate.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1124_Create.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1125_Create.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1126_Manual_Clockify_Create_Triggered.json",
@@ -4997,7 +4997,7 @@
   },
   {
     "filename": "1250_Automation.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1251_Postgrestool_Stickynote_Automation_Triggered.json",
@@ -5057,7 +5057,7 @@
   },
   {
     "filename": "1265_Automation_Triggered.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1266_Respondtowebhook_Stickynote_Automation_Webhook.json",
@@ -5081,7 +5081,7 @@
   },
   {
     "filename": "1271_Automate.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1272_Datetime_Webhook_Create_Webhook.json",
@@ -5157,7 +5157,7 @@
   },
   {
     "filename": "1290_Automation.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1291_Telegram_Code_Automation_Webhook.json",
@@ -5301,7 +5301,7 @@
   },
   {
     "filename": "1326_Automate.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1327_Wordpress_Manual_Automate_Webhook.json",
@@ -5985,7 +5985,7 @@
   },
   {
     "filename": "1497_Automation.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1498_Stopanderror_Limit_Sync_Webhook.json",
@@ -6385,7 +6385,7 @@
   },
   {
     "filename": "1597_Export.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1598_HTTP_Schedule_Automation_Scheduled.json",
@@ -6533,7 +6533,7 @@
   },
   {
     "filename": "1634_Automation.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1635_Localfile_Splitout_Automation_Triggered.json",
@@ -7641,7 +7641,7 @@
   },
   {
     "filename": "1911_Automate.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "1912_Manual_GoogleSheets_Automation_Triggered.json",
@@ -8185,7 +8185,7 @@
   },
   {
     "filename": "2047_Automation.json",
-    "category": ""
+    "category": "Uncategorized"
   },
   {
     "filename": "2048_Stickynote_Automation_Triggered.json",
@@ -8213,6 +8213,14 @@
   },
   {
     "filename": "2054_Deep_Research_Report_Generation_With_Open_Router_Google_Search_Webhook_Telegram_and_Notion.json",
+    "category": "Communication & Messaging"
+  },
+  {
+    "filename": "2058_Calcslive_Engineering_Calculations_Manual.json",
+    "category": "Uncategorized"
+  },
+  {
+    "filename": "Academic Assistant Chatbot (Telegram + OpenAI).json",
     "category": "Communication & Messaging"
   },
   {
