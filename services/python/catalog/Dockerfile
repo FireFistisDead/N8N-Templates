@@ -11,11 +11,16 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 COPY services/python/requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+RUN pip install --no-cache-dir --only-binary=:all: -r /tmp/requirements.txt
 
 COPY services/python ./services/python
 COPY context ./context
 COPY workflows ./workflows
+
+RUN useradd --no-create-home --shell /sbin/nologin appuser \
+    && mkdir -p /app/data/python \
+    && chown -R appuser:appuser /app
+USER appuser
 
 EXPOSE 8101
 CMD ["python3", "-m", "catalog"]
