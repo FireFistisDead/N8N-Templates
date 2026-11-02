@@ -1,7 +1,195 @@
+# n8n Workflow Documentation System
+# Docker Compose Configuration
+# 
+# Maintainer: AceIntelligence Systems
+# Founders: OM CHOKSI <om@aceinteligence.systems>
+#           Yash Khare <yash@aceinteligence.systems>
+# Website: https://aceinteligence.systems
+#
+# This configuration runs both Python and Node.js microservice stacks
+# side by side for development and production use.
+#
+# Services:
+#   - catalog-python: Python catalog service (port 8101)
+#   - gateway-python: Python gateway service (port 8000)
+#   - catalog-node: Node.js catalog service (port 8102)
+#   - gateway-node: Node.js gateway service (port 8001)
+#
+# Access:
+#   - Python Gateway: http://localhost:8000
+#   - Node Gateway: http://localhost:8001
+
+version: '3.8'
+
 services:
-  doc:
-    image: workflows-doc:latest
+  catalog-python:
     build:
       context: .
+      target: python
+    container_name: n8n-catalog-python
+    command: ["python3", "-m", "catalog"]
+    environment:
+      - CATALOG_HOST=0.0.0.0
+      - CATALOG_PORT=8101
+      - N8N_DB_PATH=/app/data/python/workflows.db
+      - N8N_AUTO_INDEX=true
+      - N8N_REPO_ROOT=/app
+      - N8N_WORKFLOWS_DIR=/app/workflows
+      - N8N_CONTEXT_DIR=/app/context
+    volumes:
+      - ./workflows:/app/workflows:ro
+      - ./context:/app/context:ro
+      - ./data/python:/app/data/python
+    ports:
+      - "8101:8101"
+    healthcheck:
+      test:
+        - CMD
+        - python3
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8101/health')"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - n8n-network
+    labels:
+      - "com.aceintelligence.maintainer=AceIntelligence Systems <contact@aceinteligence.systems>"
+      - "com.aceintelligence.founder_1=OM CHOKSI <om@aceinteligence.systems>"
+      - "com.aceintelligence.founder_2=Yash Khare <yash@aceinteligence.systems>"
+      - "com.aceintelligence.website=https://aceinteligence.systems"
+      - "com.aceintelligence.service=catalog"
+      - "com.aceintelligence.stack=python"
+      - "com.aceintelligence.version=3.0.0"
+
+  gateway-python:
+    build:
+      context: .
+      target: python
+    container_name: n8n-gateway-python
+    command: ["python3", "-m", "gateway"]
+    environment:
+      - GATEWAY_HOST=0.0.0.0
+      - GATEWAY_PORT=8000
+      - CATALOG_URL=http://catalog-python:8101
+      - CATALOG_TIMEOUT_SECONDS=60
+      - N8N_REPO_ROOT=/app
+      - N8N_CLIENT_DIR=/app/client
     ports:
       - "8000:8000"
+    volumes:
+      - ./client:/app/client:ro
+    depends_on:
+      catalog-python:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python3
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - n8n-network
+    labels:
+      - "com.aceintelligence.maintainer=AceIntelligence Systems <contact@aceinteligence.systems>"
+      - "com.aceintelligence.founder_1=OM CHOKSI <om@aceinteligence.systems>"
+      - "com.aceintelligence.founder_2=Yash Khare <yash@aceinteligence.systems>"
+      - "com.aceintelligence.website=https://aceinteligence.systems"
+      - "com.aceintelligence.service=gateway"
+      - "com.aceintelligence.stack=python"
+      - "com.aceintelligence.version=3.0.0"
+
+  catalog-node:
+    build:
+      context: .
+      target: node
+    container_name: n8n-catalog-node
+    command: ["node", "services/node/catalog/src/index.js"]
+    environment:
+      - CATALOG_HOST=0.0.0.0
+      - CATALOG_PORT=8102
+      - N8N_DB_PATH=/app/data/node/workflows.db
+      - N8N_AUTO_INDEX=true
+      - N8N_REPO_ROOT=/app
+      - N8N_WORKFLOWS_DIR=/app/workflows
+      - N8N_CONTEXT_DIR=/app/context
+    volumes:
+      - ./workflows:/app/workflows:ro
+      - ./context:/app/context:ro
+      - ./data/node:/app/data/node
+    ports:
+      - "8102:8102"
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8102/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - n8n-network
+    labels:
+      - "com.aceintelligence.maintainer=AceIntelligence Systems <contact@aceinteligence.systems>"
+      - "com.aceintelligence.founder_1=OM CHOKSI <om@aceinteligence.systems>"
+      - "com.aceintelligence.founder_2=Yash Khare <yash@aceinteligence.systems>"
+      - "com.aceintelligence.website=https://aceinteligence.systems"
+      - "com.aceintelligence.service=catalog"
+      - "com.aceintelligence.stack=node"
+      - "com.aceintelligence.version=3.0.0"
+
+  gateway-node:
+    build:
+      context: .
+      target: node
+    container_name: n8n-gateway-node
+    command: ["node", "services/node/gateway/src/index.js"]
+    environment:
+      - GATEWAY_HOST=0.0.0.0
+      - GATEWAY_PORT=8001
+      - CATALOG_URL=http://catalog-node:8102
+      - N8N_REPO_ROOT=/app
+      - N8N_CLIENT_DIR=/app/client
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./client:/app/client:ro
+    depends_on:
+      catalog-node:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - n8n-network
+    labels:
+      - "com.aceintelligence.maintainer=AceIntelligence Systems <contact@aceinteligence.systems>"
+      - "com.aceintelligence.founder_1=OM CHOKSI <om@aceinteligence.systems>"
+      - "com.aceintelligence.founder_2=Yash Khare <yash@aceinteligence.systems>"
+      - "com.aceintelligence.website=https://aceinteligence.systems"
+      - "com.aceintelligence.service=gateway"
+      - "com.aceintelligence.stack=node"
+      - "com.aceintelligence.version=3.0.0"
+
+networks:
+  n8n-network:
+    driver: bridge
+    name: n8n-network

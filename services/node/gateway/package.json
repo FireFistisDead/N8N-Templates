@@ -1,0 +1,16 @@
+{
+  "name": "@n8n-workflows/gateway-node",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Public gateway (Node.js): serves the web client and proxies /api to the catalog",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
