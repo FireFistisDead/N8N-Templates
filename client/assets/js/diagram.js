@@ -9,14 +9,25 @@ N8N.diagramMixin = {
     if (typeof mermaid === 'undefined') return;
     mermaid.initialize({
       startOnLoad: false,
-      theme: 'base',
+      theme: 'dark',
+      flowchart: {
+        curve: 'basis',
+        nodeSpacing: 45,
+        rankSpacing: 70,
+        htmlLabels: true,
+      },
       themeVariables: {
-        primaryColor: '#2563eb',
-        primaryTextColor: '#1e293b',
-        primaryBorderColor: '#1d4ed8',
-        lineColor: '#64748b',
-        secondaryColor: '#f1f5f9',
-        tertiaryColor: '#f8fafc',
+        fontFamily: '"JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace',
+        primaryColor: '#1B232D',
+        primaryTextColor: '#E6EDF3',
+        primaryBorderColor: '#2BD17E',
+        lineColor: '#4A5A6A',
+        secondaryColor: '#10151B',
+        tertiaryColor: '#0E1318',
+        background: '#0A0E12',
+        mainBkg: '#1B232D',
+        textColor: '#E6EDF3',
+        edgeLabelBackground: '#141A21',
       },
     });
   },

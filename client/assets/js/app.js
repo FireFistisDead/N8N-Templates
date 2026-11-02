@@ -57,7 +57,10 @@ class WorkflowApp {
 
     this.elements.loadMoreBtn.addEventListener('click', () => this.loadMoreWorkflows());
     this.elements.retryBtn.addEventListener('click', () => this.loadInitialData());
-    this.elements.themeToggle.addEventListener('click', () => this.toggleTheme());
+    this.elements.themeSwitch.addEventListener('click', (event) => {
+      const button = event.target.closest('.theme-option');
+      if (button) this.setTheme(button.dataset.themeOption);
+    });
 
     this.elements.modalClose.addEventListener('click', () => this.closeModal());
     this.elements.workflowModal.addEventListener('click', (event) => {

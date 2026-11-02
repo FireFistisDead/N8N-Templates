@@ -1,0 +1,37 @@
+services:
+  - type: pserv
+    name: n8n-catalog
+    runtime: docker
+    dockerfilePath: ./services/python/catalog/Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: CATALOG_HOST
+        value: 0.0.0.0
+      - key: CATALOG_PORT
+        value: 8101
+      - key: N8N_AUTO_INDEX
+        value: "true"
+      - key: N8N_REPO_ROOT
+        value: /app
+
+  - type: web
+    name: n8n-gateway
+    runtime: docker
+    dockerfilePath: ./services/python/gateway/Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: GATEWAY_HOST
+        value: 0.0.0.0
+      - key: GATEWAY_PORT
+        value: 8000
+      - key: PORT
+        value: 8000
+      - key: CATALOG_URL
+        value: http://n8n-catalog:8101
+      - key: CATALOG_TIMEOUT_SECONDS
+        value: 60
+      - key: N8N_REPO_ROOT
+        value: /app

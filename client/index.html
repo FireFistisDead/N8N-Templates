@@ -15,12 +15,28 @@
   <div id="app">
     <!-- Header -->
     <header class="header">
+      <a class="founder-corner founder-corner-left" href="https://github.com/fireFistisDead" target="_blank" rel="noopener noreferrer" title="Yash Khare - Founder, built this project">
+        <img class="founder-avatar" src="https://github.com/fireFistisDead.png" alt="Yash Khare" loading="lazy">
+        <span class="founder-info">
+          <span class="founder-name">Yash Khare</span>
+          <span class="founder-role">Founder</span>
+        </span>
+      </a>
+      <a class="founder-corner founder-corner-right" href="https://github.com/omchoksi108" target="_blank" rel="noopener noreferrer" title="Om Choksi - Co-founder">
+        <span class="founder-info founder-info-right">
+          <span class="founder-name">Om Choksi</span>
+          <span class="founder-role">Co-founder</span>
+        </span>
+        <img class="founder-avatar" src="https://github.com/omchoksi108.png" alt="Om Choksi" loading="lazy">
+      </a>
       <div class="container">
         <div class="header-content">
           <div class="logo-section">
             <h1 class="title">n8n Workflow Collection & Documentation</h1>
             <p class="subtitle">A curated collection of 2,057+ n8n workflows with a fast, searchable documentation system</p>
-            <p class="branding">By <strong>AceIntelligence Systems</strong></p>
+            <p class="branding">By <strong><a href="https://aceintelligence.systems" target="_blank" rel="noopener noreferrer">AceIntelligence Systems</a></strong> &middot;
+              <a href="https://github.com/fireFistisDead" target="_blank" rel="noopener noreferrer">Yash Khare</a> (Founder) &
+              <a href="https://github.com/omchoksi108" target="_blank" rel="noopener noreferrer">Om Choksi</a> (Co-founder)</p>
           </div>
           <div class="support-section">
             <a href="https://buymeacoffee.com/firefistisdead" class="support-badge" target="_blank" rel="noopener noreferrer">
@@ -93,7 +109,10 @@
             </label>
           </div>
 
-          <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">Dark Mode</button>
+          <div class="theme-switch" id="themeSwitch" role="group" aria-label="Theme">
+            <button type="button" class="theme-option" data-theme-option="dark" aria-pressed="false">Dark</button>
+            <button type="button" class="theme-option" data-theme-option="light" aria-pressed="false">White</button>
+          </div>
         </div>
 
         <div class="results-info">

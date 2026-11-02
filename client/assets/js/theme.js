@@ -1,20 +1,21 @@
 // Light/dark theme persistence.
 N8N.themeMixin = {
   setupTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    this.updateThemeToggle(savedTheme);
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    this.setTheme(savedTheme);
   },
 
-  toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    this.updateThemeToggle(newTheme);
+  setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    this.updateThemeToggle(theme);
   },
 
   updateThemeToggle(theme) {
-    this.elements.themeToggle.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+    this.elements.themeOptions.forEach((button) => {
+      const isActive = button.dataset.themeOption === theme;
+      button.classList.toggle('active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
   },
 };
