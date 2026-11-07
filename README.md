@@ -18,7 +18,7 @@ A curated collection of **2,057+ n8n workflows** with a **high-performance, sear
 |------|-------|---------|
 | OM CHOKSI | om@aceinteligence.systems | [linkedin.com/in/omchoksi](https://linkedin.com/in/omchoksi) |
 | Yash Khare | yash@aceinteligence.systems | [linkedin.com/in/yashkhare](https://linkedin.com/in/yashkhare) |
-| Ansh Gajera | ansh@aceintelligence.systems |[linkedin.com/in/yashkhare](https://linkedin.com/in/ansh-gajera/) |
+| Ansh Gajera | ansh@aceintelligence.systems |[linkedin.com/in/ansh-gajera](https://linkedin.com/in/ansh-gajera/) |
 
 ### Company Information
 
