@@ -14,10 +14,11 @@ A curated collection of **2,057+ n8n workflows** with a **high-performance, sear
 
 ### Founding Team
 
-| Role | Name | Email | LinkedIn |
-|------|------|-------|---------|
-| **Founder & CEO** | OM CHOKSI | om@aceinteligence.systems | [linkedin.com/in/omchoksi](https://linkedin.com/in/omchoksi) |
-| **Co-Founder & CTO** | Yash Khare | yash@aceinteligence.systems | [linkedin.com/in/yashkhare](https://linkedin.com/in/yashkhare) |
+| Name | Email | LinkedIn |
+|------|-------|---------|
+| OM CHOKSI | om@aceinteligence.systems | [linkedin.com/in/omchoksi](https://linkedin.com/in/omchoksi) |
+| Yash Khare | yash@aceinteligence.systems | [linkedin.com/in/yashkhare](https://linkedin.com/in/yashkhare) |
+| Ansh Gajera | ansh@aceintelligence.systems |[linkedin.com/in/yashkhare](https://linkedin.com/in/ansh-gajera/) |
 
 ### Company Information
 
